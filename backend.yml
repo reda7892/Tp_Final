@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata: 
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: reda7892/backend:latest
+        env:
+        - name: DB_USERNAME
+          value: reda
+        - name: DB_PASSWORD
+          value: rourou
+        - name: DB_NAME
+          value: bd
+        - name: DB_HOST
+          value: postgres-service
+        - name: FRONT_URL
+          value: http://192.168.49.2:30000
+ 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30001
+  selector:
+    app: backend

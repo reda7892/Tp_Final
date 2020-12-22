@@ -1,0 +1,21 @@
+version: "3.5"
+
+services: 
+    backend:
+        image: backend
+        ports:
+            - 8000:8000
+        volumes: 
+            - ./logs.txt:/usr/app/logs.txt
+        environment:
+        - DB_USERNAME=reda
+        - DB_PASSWORD=rourou
+        - DB_NAME=bd
+        - DB_HOST=postgres_serv
+    postgres_serv:
+        image: postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: reda
+            POSTGRES_PASSWORD: rourou
+            POSTGRES_DB: bd
